@@ -41,3 +41,19 @@
 - JWT подписывается алгоритмом **HS256**.
 - Prisma использует параметризованные запросы для защиты от SQL-инъекций.
 - Markdown рендерится без `dangerouslySetInnerHTML`, кастомный рендерер кода снижает XSS-риски.
+
+
+## Deploy на Vercel
+
+Если получаете `404: NOT_FOUND`, проверьте:
+
+1. **Root Directory** проекта в Vercel указывает на корень репозитория, где лежат `package.json`, `app/page.tsx` и `vercel.json`.
+2. В проекте используется **Next.js App Router**, главный entry-файл уже расположен правильно: `app/page.tsx`.
+3. В корне есть `vercel.json` с rewrite для клиентских роутов (не затрагивает `api`, `_next` и файлы-ассеты).
+
+Рекомендуемые настройки в Vercel:
+
+- **Framework Preset:** `Next.js`
+- **Build Command:** `npm run build`
+- **Output Directory:** оставить пустым (Vercel сам использует `.next`)
+- **Install Command:** `npm install`
