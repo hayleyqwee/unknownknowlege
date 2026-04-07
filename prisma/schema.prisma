@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  name         String
+  passwordHash String
+  progress     Progress[]
+  createdAt    DateTime   @default(now())
+}
+
+model Course {
+  id              String   @id @default(cuid())
+  title           String
+  level           String
+  durationMinutes Int
+  lessons         Lesson[]
+}
+
+model Lesson {
+  id            String         @id @default(cuid())
+  title         String
+  videoUrl      String
+  markdown      String
+  moduleTitle   String
+  courseId      String
+  course        Course         @relation(fields: [courseId], references: [id])
+  progressItems Progress[]
+  questions     QuizQuestion[]
+}
+
+model Progress {
+  id         String   @id @default(cuid())
+  userId     String
+  lessonId   String
+  percentage Int
+  updatedAt  DateTime @updatedAt
+  user       User     @relation(fields: [userId], references: [id])
+  lesson     Lesson   @relation(fields: [lessonId], references: [id])
+
+  @@unique([userId, lessonId])
+}
+
+model QuizQuestion {
+  id            String @id @default(cuid())
+  lessonId      String
+  type          String
+  prompt        String
+  options       Json?
+  correctAnswer String
+  lesson        Lesson @relation(fields: [lessonId], references: [id])
+}
