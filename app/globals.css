@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+:root {
+  --background: #070b0f;
+  --foreground: #d4ffe5;
+  --accent: #00ff00;
+  --accent-secondary: #00aeef;
+}
+
+body {
+  background: radial-gradient(circle at top, #0f1720 0%, var(--background) 45%);
+  color: var(--foreground);
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+}
+
+.cyber-card {
+  border: 1px solid rgba(0, 255, 0, 0.35);
+  background: rgba(2, 12, 18, 0.95);
+  box-shadow: 0 0 16px rgba(0, 174, 239, 0.18);
+}
+
+.terminal-input {
+  border: 1px solid rgba(0, 174, 239, 0.4);
+  background: rgba(2, 12, 18, 0.75);
+  color: var(--foreground);
+}
