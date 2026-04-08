@@ -1,10 +1,7 @@
-import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { ChevronLeft, ShieldAlert } from "lucide-react";
 import { ModuleSidebar } from "@/components/ModuleSidebar";
 import { Quiz } from "@/components/Quiz";
-import { QuickCheck } from "@/components/QuickCheck";
 import { lessons, quizQuestions } from "@/lib/mock-data";
 
 export default async function LessonPage({ params }: { params: Promise<{ id: string }> }) {
@@ -17,17 +14,7 @@ export default async function LessonPage({ params }: { params: Promise<{ id: str
       <ModuleSidebar lessons={lessons} />
 
       <section>
-        <div className="mb-4 flex items-center justify-between">
-          <h1 className="flex items-center gap-2 text-3xl font-bold text-[#00FF00]">
-            <ShieldAlert className="h-7 w-7" />
-            {lesson.title}
-          </h1>
-          <Link href="/" className="cyber-btn inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm">
-            <ChevronLeft className="h-4 w-4" />
-            Назад к каталогу
-          </Link>
-        </div>
-
+        <h1 className="mb-4 text-3xl font-bold text-[#00FF00]">{lesson.title}</h1>
         <div className="cyber-card mb-6 overflow-hidden rounded-xl">
           <iframe
             className="aspect-video w-full"
@@ -42,6 +29,7 @@ export default async function LessonPage({ params }: { params: Promise<{ id: str
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
+              // Принудительно рендерим как текст для снижения XSS-риска.
               code(props) {
                 return <code className="text-[#00aeef]">{String(props.children)}</code>;
               },
@@ -51,7 +39,6 @@ export default async function LessonPage({ params }: { params: Promise<{ id: str
           </ReactMarkdown>
         </article>
 
-        <QuickCheck />
         <Quiz lessonId={lesson.id} questions={questions} />
       </section>
     </main>
